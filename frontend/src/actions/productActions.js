@@ -1,8 +1,9 @@
-import { PRODUCT_LIST_REQUEST, PRODUCT_LIST_SUCCESS } from "../constants"
+import { PRODUCT_LIST_REQUEST, PRODUCT_LIST_SUCCESS, PRODUCT_LIST_FAIL } from "../constants"
 import axios from 'axios';
-const listProduct = () => async (dispatch) => {
+const listProducts = () => async (dispatch) => {
     try {
-        dispatch(PRODUCT_LIST_REQUEST);
+
+        dispatch({type: PRODUCT_LIST_REQUEST});
         const {data} = await axios.get("/api/products");
         dispatch({type: PRODUCT_LIST_SUCCESS, payload: data });
 
@@ -13,4 +14,4 @@ const listProduct = () => async (dispatch) => {
 
 }
 
-export {listProducts}
+export { listProducts }
