@@ -1,8 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import data from '../data';
 import {Link} from 'react-router-dom'
+import {useSelector} from 'react-redux';
+
 
 function ProductScreen (props) {
+
+    const productDetails = useSelector(state => state.productDetails);
+    const dispatch = useDispatch;
+
+    useEffect(() => 
+        dispatch(detailsProduct());
+        return () => {
+            //
+        };
+    }, []) /*find bug in this code*/
+
     console.log(props.match.params.id);
     const product = data.products.find(x=> x._id === props.match.params.id);
     return <div className="details">
