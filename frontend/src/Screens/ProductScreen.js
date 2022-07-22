@@ -2,6 +2,9 @@ import React, { useEffect } from 'react';
 import data from '../data';
 import {Link} from 'react-router-dom'
 import {useSelector} from 'react-redux';
+import { detailsProduct, saveProductReview} from '../actions/productActions';
+import Rating from '../components/Rating';
+import { PRODUCT_REVIEW_SAVE_RESET} from '../constants/productConstants';
 
 
 function ProductScreen (props) {
@@ -9,12 +12,29 @@ function ProductScreen (props) {
     const productDetails = useSelector(state => state.productDetails);
     const dispatch = useDispatch;
 
-    useEffect(() => 
-        dispatch(detailsProduct());
+    useEffect(() => {
+        if (productSaveSuccess) {
+            alert('Review submitted successfully.');
+            setRating(0);
+            setComment('');
+            dispatch({ type: PRODUCT_REVIEW_SAVE_RESET });
+        }
+        dispatch(detailsProduct(props.match.params.id));
         return () => {
             //
         };
-    }, []) /*find bug in this code*/
+    }, [productSaveSuccess]);
+    const submitHandler = (e) => {
+    e.preventDefault();
+    //dispatch actions
+        dispatch(
+            saveProductReview(props.match.params.id, {
+                name: userInfo.name,
+                rating: rating,
+                comment: comment,
+            })
+        );
+    };
 
     console.log(props.match.params.id);
     const product = data.products.find(x=> x._id === props.match.params.id);
